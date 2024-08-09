@@ -1,0 +1,19 @@
+name: Test CLI in GH Actions
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: null
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.3
+      - name: Use Node.js
+        uses: actions/setup-node@v3.7.0
+        with:
+          node-version: 20.x
+      - run: npm install --global @pnp/cli-microsoft365
+        name: Install Office365 CLI   
+      - run: m365 login --appId ${{ secrets.APP_ID }} -s ${{ secrets.SECRET }} --tenant ${{ secrets.TENANT_ID }} --t secret
